@@ -2,7 +2,7 @@
 session_start();
 include_once('config.php');
 
-if(!$connection){
+if (!$connection) {
     throw new Exception('not connceted');
 }
 // 
@@ -12,7 +12,9 @@ if ($action == 'register') {
 
     $email = $_POST['email'];
     $pass  = $_POST['password'];
+    $status = $_POST['status'];
 
+ 
     if ($email != '' && $pass != '') {
 
         // Check if email already exists
@@ -23,7 +25,6 @@ if ($action == 'register') {
 
             header("Location: register.php?status=exists");
             exit;
-
         } else {
 
             // Insert user
@@ -39,47 +40,38 @@ if ($action == 'register') {
             }
         }
     }
-}
-
-else if($action=='edit'){
-    $email=$_POST ['email'];
-    $editid=$_GET['editid'];
-    $update= "UPDATE users SET email='$email' WHERE id='$editid' ";
-    $isdone= mysqli_query($connection,$update);
+} else if ($action == 'edit') {
+    $email = $_POST['email'];
+    $editid = $_GET['editid'];
+    $update = "UPDATE users SET email='$email' WHERE id='$editid' ";
+    $isdone = mysqli_query($connection, $update);
     echo $isdone;
-    if($isdone){
-        
+    if ($isdone) {
+
         header("location:user-list.php??status=updated");
-    }
-    else{
+    } else {
         echo 'not connected';
     }
-}
-  else if ($action =='signin'){
-    $email=$_POST['email'];
-    $FormPassword=$_POST['password'];
-    $query="select * from users where email='$email'";
-    $EmailIsExist=mysqli_query($connection,$query);
-    if(mysqli_num_rows($EmailIsExist)>0){
-        $data=mysqli_fetch_assoc($EmailIsExist);
-        $DbPassword=$data['password'];
-        $userId=$data['id'];
-        if($DbPassword === $FormPassword){
-            $_SESSION['id']=$userId;
-            header('location:user-list.php'); 
+} else if ($action == 'signin') {
+    $email = $_POST['email'];
+    $FormPassword = $_POST['password'];
+    $query = "select * from users where email='$email'";
+    $EmailIsExist = mysqli_query($connection, $query);
+    if (mysqli_num_rows($EmailIsExist) > 0) {
+        $data = mysqli_fetch_assoc($EmailIsExist);
+        $DbPassword = $data['password'];
+        $userId = $data['id'];
+        if ($DbPassword === $FormPassword) {
+            $_SESSION['id'] = $userId;
+            header('location:user-list.php');
+        } else {
+            $status = 'Email and password didnt match';
+            header("location:signin.php?status={$status}");
+            exit;
         }
-        else{
-            $status='Email and password didnt match';
-            header("location:signin.php?status={$status}"); exit;
-        }
-    }
-    else {
+    } else {
         $status = 'Given Email is not registered';
-        header("location:signin.php?status={$status}"); exit;
+        header("location:signin.php?status={$status}");
+        exit;
     }
 }
-
- ?>
-
-
- 

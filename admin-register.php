@@ -34,7 +34,7 @@ if(isset($_GET['status'])){
     <?php elseif ($status == 'deleted'): ?>
         <p style="color: white;">User deleted successfully!</p>
     <?php endif; ?>
-            <h1>Register</h1>
+            <h1>Admin Register</h1>
             <hr>
             <label for="email"><b>Email</b></label>
             <input type="email" placeholder="enter your vaild email" id="email" name="email" required>
@@ -42,21 +42,6 @@ if(isset($_GET['status'])){
 
             <input type="password" placeholder="type your password" id="password" name="password" required>
             <input type="hidden" value="register" name="action">
-            <input type="hidden" value="2" name="status">
-            <button type="submit" class="submit"> sign up</button>
+            <input type="hidden" value="1" name="status">
+            <button type="submit" class="submit"> admin sign up</button>
             <p>Already Have An Account? <a href="signin.php">sign in</a></p>
-
-
-
-        
-
-
-
-
-
-
-    </form>
-</div>
-</body>
-
-</html>
